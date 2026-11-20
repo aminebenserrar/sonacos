@@ -1,0 +1,159 @@
+# SONACOS - Diagramme de classes global
+
+direction: right
+
+Utilisateur: {
+  shape: class
+  id: Long
+  firstName: String
+  lastName: String
+  email: String
+  passwordHash: String
+  phone: String
+  city: String
+  active: Boolean
+  createdAt: DateTime
+}
+
+Role: {
+  shape: class
+  id: Long
+  name: String
+  label: String
+}
+
+Categorie: {
+  shape: class
+  id: Long
+  name: String
+  description: String
+  active: Boolean
+}
+
+Produit: {
+  shape: class
+  id: Long
+  slug: String
+  reference: String
+  name: String
+  shortDescription: String
+  fullDescription: String
+  price: Decimal
+  unit: String
+  imageUrl: String
+  stockQuantity: Integer
+  alertThreshold: Integer
+  active: Boolean
+  featured: Boolean
+}
+
+Panier: {
+  shape: class
+  id: Long
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+LignePanier: {
+  shape: class
+  id: Long
+  quantity: Integer
+  unitPrice: Decimal
+}
+
+Commande: {
+  shape: class
+  id: Long
+  orderNumber: String
+  status: OrderStatus
+  receptionMode: ReceptionMode
+  paymentMode: PaymentMode
+  deliveryAddress: String
+  totalAmount: Decimal
+  createdAt: DateTime
+}
+
+LigneCommande: {
+  shape: class
+  id: Long
+  quantity: Integer
+  unitPrice: Decimal
+  subtotal: Decimal
+}
+
+Paiement: {
+  shape: class
+  id: Long
+  paymentReference: String
+  amount: Decimal
+  paymentMode: PaymentMode
+  status: PaymentStatus
+  paymentDate: DateTime
+}
+
+Facture: {
+  shape: class
+  id: Long
+  invoiceNumber: String
+  amountExcludingTax: Decimal
+  taxAmount: Decimal
+  totalAmount: Decimal
+  fileName: String
+  archived: Boolean
+  generatedAt: DateTime
+  archivedAt: DateTime
+}
+
+MouvementStock: {
+  shape: class
+  id: Long
+  movementType: MovementType
+  quantity: Integer
+  stockBefore: Integer
+  stockAfter: Integer
+  reason: String
+  createdAt: DateTime
+}
+
+ValidationOperation: {
+  shape: class
+  id: Long
+  operationType: String
+  targetReference: String
+  status: ValidationStatus
+  priority: String
+  requestedAt: DateTime
+  decidedAt: DateTime
+  refusalReason: String
+}
+
+OperationHistory: {
+  shape: class
+  id: Long
+  actionType: String
+  objectType: String
+  objectReference: String
+  description: String
+  oldValue: String
+  newValue: String
+  createdAt: DateTime
+}
+
+Utilisateur -> Role: "0..* roles"
+Utilisateur -> Panier: "1 possede 0..1"
+Panier -> LignePanier: "1 contient 0..*"
+LignePanier -> Produit: "1 concerne 1"
+
+Categorie -> Produit: "1 contient 0..*"
+Produit -> MouvementStock: "1 genere 0..*"
+
+Utilisateur -> Commande: "1 passe 0..*"
+Commande -> LigneCommande: "1 contient 1..*"
+LigneCommande -> Produit: "1 concerne 1"
+Commande -> Paiement: "1 possede 0..1"
+Commande -> Facture: "1 genere 0..1"
+
+Utilisateur -> Paiement: "1 effectue 0..*"
+Utilisateur -> ValidationOperation: "0..* demande / decide"
+ValidationOperation -> OperationHistory: "1 trace 1..*"
+Utilisateur -> OperationHistory: "1 realise 0..*"

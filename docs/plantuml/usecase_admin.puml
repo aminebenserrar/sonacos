@@ -1,0 +1,41 @@
+﻿@startuml
+left to right direction
+
+actor "Administrateur" as Admin
+
+rectangle "Application SONACOS" {
+  usecase "Tableau de bord" as UC1
+  usecase "Utilisateurs" as UC2
+  usecase "Rechercher utilisateur" as UC3
+  usecase "Modifier compte" as UC4
+  usecase "Activer compte" as UC5
+  usecase "Desactiver compte" as UC6
+  usecase "Attribuer role" as UC7
+  usecase "Retirer role" as UC8
+  usecase "Journal d'activite" as UC9
+  usecase "Detail operation" as UC10
+}
+
+UC1 -[hidden]right- UC2
+UC2 -[hidden]right- UC3
+UC4 -[hidden]right- UC5
+UC5 -[hidden]right- UC6
+UC7 -[hidden]right- UC8
+UC8 -[hidden]right- UC9
+UC10 -[hidden]right- UC10
+UC1 -[hidden]down- UC4
+UC4 -[hidden]down- UC7
+UC7 -[hidden]down- UC10
+
+Admin --> UC1
+Admin --> UC2
+Admin --> UC4
+Admin --> UC5
+Admin --> UC6
+Admin --> UC7
+Admin --> UC8
+Admin --> UC9
+
+UC2 .> UC3 : <<include>>
+UC9 .> UC10 : <<extend>>
+@enduml

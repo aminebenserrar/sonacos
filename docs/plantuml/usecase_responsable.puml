@@ -1,0 +1,37 @@
+﻿@startuml
+left to right direction
+
+actor "Responsable" as Responsable
+
+rectangle "Application SONACOS" {
+  usecase "Tableau de bord" as UC1
+  usecase "Demandes a traiter" as UC2
+  usecase "Filtrer demandes" as UC3
+  usecase "Detail demande" as UC4
+  usecase "Analyser impact" as UC5
+  usecase "Valider demande" as UC6
+  usecase "Refuser demande" as UC7
+  usecase "Motif de refus" as UC8
+  usecase "Decisions passees" as UC9
+}
+
+UC1 -[hidden]right- UC2
+UC2 -[hidden]right- UC3
+UC4 -[hidden]right- UC5
+UC5 -[hidden]right- UC6
+UC7 -[hidden]right- UC8
+UC8 -[hidden]right- UC9
+UC1 -[hidden]down- UC4
+UC4 -[hidden]down- UC7
+
+Responsable --> UC1
+Responsable --> UC2
+Responsable --> UC4
+Responsable --> UC6
+Responsable --> UC7
+Responsable --> UC9
+
+UC2 .> UC3 : <<include>>
+UC4 .> UC5 : <<include>>
+UC7 .> UC8 : <<include>>
+@enduml

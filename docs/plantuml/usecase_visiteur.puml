@@ -1,0 +1,35 @@
+﻿@startuml
+left to right direction
+
+actor "Visiteur" as Visiteur
+
+rectangle "Application SONACOS" {
+  usecase "Consulter accueil" as UC1
+  usecase "Presentation SONACOS" as UC2
+  usecase "Catalogue public" as UC3
+  usecase "Rechercher produit" as UC4
+  usecase "Filtrer produits" as UC5
+  usecase "Fiche produit" as UC6
+  usecase "Connexion" as UC7
+  usecase "Inscription" as UC8
+}
+
+UC1 -[hidden]right- UC2
+UC2 -[hidden]right- UC3
+UC4 -[hidden]right- UC5
+UC5 -[hidden]right- UC6
+UC7 -[hidden]right- UC8
+UC1 -[hidden]down- UC4
+UC4 -[hidden]down- UC7
+
+Visiteur --> UC1
+Visiteur --> UC3
+Visiteur --> UC7
+Visiteur --> UC8
+
+UC1 .> UC2 : <<include>>
+UC3 .> UC4 : <<include>>
+UC3 .> UC5 : <<include>>
+UC3 .> UC6 : <<extend>>
+UC8 .> UC7 : <<extend>>
+@enduml

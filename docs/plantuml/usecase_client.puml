@@ -1,0 +1,44 @@
+﻿@startuml
+left to right direction
+
+actor "Client" as Client
+
+rectangle "Application SONACOS" {
+  usecase "Creer compte" as UC1
+  usecase "Se connecter" as UC2
+  usecase "Catalogue" as UC3
+  usecase "Fiche produit" as UC4
+  usecase "Panier" as UC5
+  usecase "Commande" as UC6
+  usecase "Mes commandes" as UC7
+  usecase "Mes factures" as UC8
+  usecase "Profil" as UC9
+  usecase "Verifier stock" as UC10
+  usecase "Telecharger facture" as UC11
+}
+
+UC1 -[hidden]right- UC2
+UC2 -[hidden]right- UC3
+UC4 -[hidden]right- UC5
+UC5 -[hidden]right- UC6
+UC7 -[hidden]right- UC8
+UC8 -[hidden]right- UC9
+UC10 -[hidden]right- UC11
+UC1 -[hidden]down- UC4
+UC4 -[hidden]down- UC7
+UC7 -[hidden]down- UC10
+
+Client --> UC1
+Client --> UC2
+Client --> UC3
+Client --> UC5
+Client --> UC6
+Client --> UC7
+Client --> UC8
+Client --> UC9
+
+UC3 .> UC4 : <<extend>>
+UC5 .> UC10 : <<include>>
+UC6 .> UC10 : <<include>>
+UC8 .> UC11 : <<extend>>
+@enduml

@@ -1,0 +1,37 @@
+﻿@startuml
+left to right direction
+
+actor "Auditeur" as Auditeur
+
+rectangle "Application SONACOS" {
+  usecase "Tableau audit" as UC1
+  usecase "Journal audit" as UC2
+  usecase "Filtrer journal" as UC3
+  usecase "Detail operation" as UC4
+  usecase "Controler commandes" as UC5
+  usecase "Controler stock" as UC6
+  usecase "Controler paiements" as UC7
+  usecase "Controler validations" as UC8
+  usecase "Documents lies" as UC9
+}
+
+UC1 -[hidden]right- UC2
+UC2 -[hidden]right- UC3
+UC4 -[hidden]right- UC5
+UC5 -[hidden]right- UC6
+UC7 -[hidden]right- UC8
+UC8 -[hidden]right- UC9
+UC1 -[hidden]down- UC4
+UC4 -[hidden]down- UC7
+
+Auditeur --> UC1
+Auditeur --> UC2
+Auditeur --> UC5
+Auditeur --> UC6
+Auditeur --> UC7
+Auditeur --> UC8
+
+UC2 .> UC3 : <<include>>
+UC2 .> UC4 : <<extend>>
+UC4 .> UC9 : <<extend>>
+@enduml

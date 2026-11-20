@@ -1,0 +1,131 @@
+# SONACOS V1 - Diagramme de classes
+
+direction: right
+
+Utilisateur: {
+  shape: class
+  id: long
+  nom: string
+  email: string
+  motDePasse: string
+  actif: boolean
+}
+
+Role: {
+  shape: class
+  id: long
+  code: string
+  libelle: string
+}
+
+Categorie: {
+  shape: class
+  id: long
+  nom: string
+  description: string
+}
+
+Produit: {
+  shape: class
+  id: long
+  reference: string
+  nom: string
+  description: string
+  prix: decimal
+  quantiteStock: int
+  actif: boolean
+}
+
+Panier: {
+  shape: class
+  id: long
+  dateCreation: date
+  statut: string
+}
+
+LignePanier: {
+  shape: class
+  id: long
+  quantite: int
+  prixUnitaire: decimal
+}
+
+Commande: {
+  shape: class
+  id: long
+  numeroCommande: string
+  dateCommande: date
+  statut: string
+  modeReception: string
+  montantTotal: decimal
+}
+
+LigneCommande: {
+  shape: class
+  id: long
+  quantite: int
+  prixUnitaire: decimal
+  sousTotal: decimal
+}
+
+Paiement: {
+  shape: class
+  id: long
+  datePaiement: date
+  montant: decimal
+  methode: string
+  statut: string
+}
+
+Facture: {
+  shape: class
+  id: long
+  numeroFacture: string
+  dateFacture: date
+  montantTotal: decimal
+  cheminFichier: string
+}
+
+MouvementStock: {
+  shape: class
+  id: long
+  typeMouvement: string
+  quantite: int
+  dateMouvement: date
+}
+
+ValidationOperation: {
+  shape: class
+  id: long
+  typeOperation: string
+  statut: string
+  motifRefus: string
+  dateDecision: date
+}
+
+HistoriqueOperation: {
+  shape: class
+  id: long
+  action: string
+  details: string
+  dateAction: date
+}
+
+Utilisateur -> Role: "1..* possede"
+Categorie -> Produit: "1 contient 0..*"
+Utilisateur -> Panier: "1 possede 0..1"
+Panier -> LignePanier: "1 contient 0..*"
+LignePanier -> Produit: "1 concerne 1 produit"
+Utilisateur -> Commande: "1 passe 0..*"
+Commande -> LigneCommande: "1 contient 1..*"
+LigneCommande -> Produit: "1 concerne 1 produit"
+Commande -> Paiement: "1 possede 0..1"
+Commande -> Facture: "1 genere 0..1"
+Produit -> MouvementStock: "1 a 0..*"
+ResponsableRef: {
+  shape: class
+  label: "Responsable\n(role utilisateur)"
+}
+ResponsableRef -> ValidationOperation: "1 traite 0..*"
+ValidationOperation -> HistoriqueOperation: "1 produit 1..*"
+Utilisateur -> HistoriqueOperation: "1 genere 0..*"

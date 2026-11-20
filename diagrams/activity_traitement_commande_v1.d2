@@ -1,0 +1,83 @@
+# SONACOS V1 - Activite traitement d'une commande
+
+direction: down
+
+debut: {
+  shape: circle
+  style.fill: black
+}
+
+consulter: {
+  shape: rectangle
+  label: "Gestionnaire consulte les commandes en attente"
+}
+
+selectionner: {
+  shape: rectangle
+  label: "Selectionner une commande"
+}
+
+verifier_paiement: {
+  shape: rectangle
+  label: "Verifier le paiement"
+}
+
+verifier_stock: {
+  shape: rectangle
+  label: "Verifier le stock reserve"
+}
+
+conforme: {
+  shape: diamond
+  label: "Commande conforme ?"
+}
+
+refuser: {
+  shape: rectangle
+  label: "Refuser la commande et saisir le motif"
+}
+
+liberer: {
+  shape: rectangle
+  label: "Liberer le stock reserve"
+}
+
+notifier_refus: {
+  shape: rectangle
+  label: "Notifier le client"
+}
+
+valider: {
+  shape: rectangle
+  label: "Valider la commande"
+}
+
+mode: {
+  shape: diamond
+  label: "Mode de reception ?"
+}
+
+livraison: {
+  shape: rectangle
+  label: "Preparer la livraison puis passer a EXPEDIEE"
+}
+
+retrait: {
+  shape: rectangle
+  label: "Preparer le retrait puis passer a PRETE"
+}
+
+fin: {
+  shape: circle
+  style.double-border: true
+}
+
+debut -> consulter -> selectionner -> verifier_paiement -> verifier_stock -> conforme
+conforme -> valider: Oui
+conforme -> refuser: Non
+refuser -> liberer -> notifier_refus -> fin
+valider -> mode
+mode -> livraison: Livraison
+mode -> retrait: Retrait
+livraison -> fin
+retrait -> fin

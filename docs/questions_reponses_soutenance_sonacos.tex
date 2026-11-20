@@ -1,0 +1,119 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{sonacos}{RGB}{24,86,55}
+\hypersetup{colorlinks=true,urlcolor=sonacos,pdftitle={SONACOS -- Questions et réponses de soutenance}}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small SONACOS -- Préparation à la soutenance}
+\rhead{\small Questions / Réponses}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\newcounter{question}
+\newcommand{\qr}[2]{\stepcounter{question}\par\addvspace{8pt}\begin{minipage}{\linewidth}\textbf{\textcolor{sonacos}{\thequestion. #1}}\par\smallskip #2\end{minipage}\par}
+\newcommand{\theme}[1]{\section*{\color{sonacos}#1}}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries\color{sonacos} Soutenance du projet SONACOS}\\[5pt]
+{\large Réponses simples avec les termes techniques}\\[3pt]
+Gestion commerciale et e-commerce de semences et d'engrais
+\end{center}
+\textit{Chaque réponse explique les termes techniques avec des mots simples. Adapte les réponses personnelles à ton expérience.}
+
+\theme{1. Présentation du projet}
+\qr{Présentez votre projet.}{C'est une application web de \textbf{gestion commerciale et d'e-commerce} pour SONACOS. Les clients commandent des semences et des engrais. Les employés gèrent les produits, le stock, les commandes et les factures.}
+\qr{Quel problème voulez-vous résoudre ?}{Le problème est de \textbf{centraliser les données commerciales}. L'idée est de suivre une vente dans une seule application, depuis le panier jusqu'à la facture. Cela évite de disperser les informations.}
+\qr{Quel est l'objectif ?}{L'objectif est de \textbf{numériser le parcours de vente}. Le client commande en ligne et les employés suivent les opérations dans leurs espaces. Les accès dépendent du rôle de chacun.}
+\qr{Quels produits proposez-vous ?}{Le catalogue présente des semences et des engrais, organisés par \textbf{catégorie}. Chaque produit possède des informations comme son nom, sa référence, son prix et sa quantité en stock.}
+\qr{Qu'apporte votre application ?}{La valeur ajoutée est le lien entre les modules. Par exemple, la création d'une commande diminue le stock et crée un enregistrement de facture. Cette automatisation facilite le suivi et réduit les ressaisies.}
+\qr{Est-ce un site de vente ou de gestion ?}{Les deux. La partie \textbf{e-commerce} sert à consulter les produits et à commander. La partie \textbf{gestion} sert aux employés pour traiter les ventes et suivre les opérations.}
+\qr{Que fait cette version ?}{Le périmètre comprend le catalogue, le panier, les commandes, le stock, les paiements et les factures. Il comprend aussi la gestion des utilisateurs, les demandes de validation, l'archivage et le journal d'activité.}
+
+\newpage
+\theme{2. Qui fait quoi ?}
+\qr{Qui utilise l'application ?}{Il y a sept profils : visiteur, client, gestionnaire, responsable, administrateur, archiviste et auditeur. Le visiteur utilise la partie publique sans compte. Les autres profils disposent d'accès protégés.}
+\qr{Que fait le visiteur ?}{Le visiteur consulte le catalogue et les fiches produits sans se connecter. Ce sont des ressources publiques. Il peut ensuite créer un compte client pour passer une commande.}
+\qr{Que fait le client ?}{Le client gère son panier, passe une commande et consulte ses achats. Il peut aussi télécharger ses factures. Le serveur vérifie qu'il accède uniquement aux documents qui lui appartiennent.}
+\qr{Que fait le gestionnaire ?}{Le gestionnaire gère les produits, les mouvements de stock, les commandes et les statuts de paiement. Il assure donc le suivi quotidien des ventes. Ses accès sont protégés par le rôle \texttt{GESTIONNAIRE}.}
+\qr{Responsable et administrateur : quelle différence ?}{Le responsable traite les demandes de validation : il les accepte ou les refuse. L'administrateur gère les comptes et les rôles. On sépare ainsi les décisions métier de la gestion des accès.}
+\qr{Archiviste et auditeur : quelle différence ?}{L'archiviste gère les archives des factures. L'auditeur consulte les opérations et leur historique pour les contrôler. L'archivage sert à conserver les documents ; l'audit sert à vérifier les actions.}
+\qr{Pourquoi plusieurs rôles ?}{J'utilise un \textbf{contrôle d'accès par rôle}, appelé RBAC. Chaque rôle reçoit les droits nécessaires à son travail. Par exemple, un client ne peut pas utiliser les fonctions d'administration.}
+\qr{Que montrez-vous dans la démonstration ?}{Je montre un \textbf{parcours complet} : consulter un produit, l'ajouter au panier et commander. Ensuite, je passe à l'espace gestionnaire pour montrer le suivi, la baisse du stock et la facture associée.}
+
+\newpage
+\theme{3. Comment fonctionne l'application ?}
+\qr{Comment l'application est-elle organisée ?}{L'application suit une \textbf{architecture en trois parties} : Next.js pour la présentation, Spring Boot pour les traitements et SQL Server pour les données. Le backend est aussi séparé en couches : Controller, Service et Repository.}
+\qr{Pourquoi Next.js et React ?}{React permet de créer des \textbf{composants réutilisables}, comme une carte produit ou un formulaire. Next.js organise les pages et permet notamment le rendu côté serveur. Cela aide à structurer l'interface.}
+\qr{Pourquoi TypeScript ?}{TypeScript ajoute un \textbf{typage statique} à JavaScript. On précise par exemple qu'une quantité est un nombre. Cela permet de détecter certaines erreurs pendant le développement, mais ne remplace pas la validation côté serveur.}
+\qr{Pourquoi Spring Boot ?}{Spring Boot facilite la création d'une \textbf{API REST en Java}. Il intègre les outils pour recevoir les requêtes, sécuriser les accès et communiquer avec la base. Il réduit aussi la configuration nécessaire.}
+\qr{Pourquoi SQL Server ?}{SQL Server est un \textbf{SGBD relationnel}, donc un outil qui gère des données en tables. Il convient aux liens entre clients, commandes et produits. Les clés primaires identifient les lignes et les clés étrangères relient les tables.}
+\qr{Comment l'interface parle-t-elle au serveur ?}{Next.js communique avec l'API Spring Boot par \textbf{HTTP}, avec des données au format \textbf{JSON}. Par exemple, une requête GET consulte le panier et une requête POST ajoute un article. Le backend traite la demande et renvoie une réponse.}
+\qr{Controller, Service et Repository : à quoi servent-ils ?}{Le \textbf{Controller} reçoit la requête HTTP. Le \textbf{Service} applique les règles métier, comme vérifier le stock. Le \textbf{Repository} lit ou enregistre les données : cette séparation facilite la maintenance.}
+\qr{JPA et DTO : qu'est-ce que c'est ?}{\textbf{JPA} permet de relier les objets Java aux tables de la base : c'est le principe du mapping objet-relationnel. Un \textbf{DTO} définit les données échangées avec l'API. Par exemple, \texttt{AdminCreateUserRequest} contient les informations nécessaires pour créer un utilisateur.}
+
+\newpage
+\theme{4. Commandes et stock}
+\qr{Quelles sont les principales données ?}{Les principales \textbf{entités} sont les utilisateurs, rôles, catégories, produits, paniers, commandes, paiements et factures. Il existe aussi des mouvements de stock et un historique. Une entité représente un élément du domaine enregistré en base.}
+\qr{Pourquoi des lignes de commande ?}{Une commande peut contenir plusieurs produits : c'est une relation \textbf{un-à-plusieurs} avec ses lignes. Chaque ligne conserve le produit, la quantité, le prix unitaire et le sous-total. Cela décrit précisément ce qui a été commandé.}
+\qr{Que se passe-t-il quand le client commande ?}{Le service vérifie le panier et le stock, puis crée la commande. Il diminue le stock et enregistre les mouvements de sortie, le paiement en attente et la facture. Enfin, il vide le panier ; ces écritures sont regroupées dans une transaction.}
+\qr{Quel est le premier statut de la commande ?}{Dans le code actuel, la commande commence au statut \texttt{CONFIRMEE}. Le paiement commence au statut \texttt{EN\_ATTENTE}. Les deux statuts sont séparés, car confirmer une commande ne signifie pas qu'elle est payée.}
+\qr{Quand le stock diminue-t-il ?}{Le stock diminue dès la création de la commande. L'application enregistre aussi un \textbf{mouvement de sortie}, avec les quantités avant et après. Cela permet de retrouver l'origine du changement.}
+\qr{Et si le stock ne suffit pas ?}{Le service compare la quantité demandée au stock disponible. Si elle est trop élevée, il lève une \textbf{exception métier} et refuse la commande. Le message indique le produit concerné.}
+\qr{À quoi sert une transaction ?}{L'annotation \texttt{@Transactional} regroupe les écritures liées à la commande. Le but est de tout valider ensemble ou d'annuler les changements si une erreur déclenche un \textbf{rollback}, c'est-à-dire un retour en arrière. Cela évite un enregistrement partiel.}
+\qr{Pourquoi garder le prix dans la commande ?}{La ligne conserve le prix au moment de la commande : c'est une \textbf{copie historique}. Si le prix du catalogue change, l'ancienne commande garde son montant. Le code utilise \texttt{BigDecimal} pour les calculs monétaires décimaux.}
+
+\newpage
+\theme{5. Sécurité}
+\qr{Comment se passe la connexion ?}{L'utilisateur envoie ses identifiants à l'API. Spring Security les vérifie, puis le backend délivre un \textbf{JWT}. Ce jeton est ensuite transmis avec les requêtes protégées pour identifier l'utilisateur.}
+\qr{C'est quoi un JWT ?}{Un JWT est un \textbf{jeton signé} utilisé pour l'authentification. Le serveur vérifie notamment sa signature et sa validité. La signature permet de détecter une modification, mais ne chiffre pas le contenu du jeton.}
+\qr{Authentification et autorisation : quelle différence ?}{L'\textbf{authentification} vérifie l'identité : qui êtes-vous ? L'\textbf{autorisation} vérifie les droits : que pouvez-vous faire ? Un client connecté est authentifié, mais il n'est pas autorisé à administrer les utilisateurs.}
+\qr{Comment protégez-vous les mots de passe ?}{Les mots de passe sont \textbf{hachés avec BCrypt}. La base stocke une empreinte, pas le mot de passe lisible. Lors de la connexion, BCrypt vérifie que le mot de passe fourni correspond à cette empreinte.}
+\qr{Cacher un bouton suffit-il pour sécuriser ?}{Non, car une personne peut envoyer une requête directement à l'API. \textbf{Spring Security} vérifie donc les droits côté serveur. Dans le contrôleur du panier, \texttt{@PreAuthorize} exige le rôle client.}
+\qr{Un client peut-il voir la facture d'un autre ?}{Non. Le serveur compare le propriétaire de la facture avec l'utilisateur connecté avant le téléchargement. C'est un \textbf{contrôle d'accès sur la ressource}, en complément du contrôle par rôle.}
+\qr{À quoi sert l'historique ?}{Le \textbf{journal d'audit} conserve une trace des opérations enregistrées. Par exemple, la création d'une commande produit une entrée d'historique. Cela aide à retrouver ce qui s'est passé et à contrôler les actions.}
+\qr{Que signifient 401 et 403 ?}{Ce sont des \textbf{codes de statut HTTP}. \textbf{401} indique une authentification absente ou invalide. \textbf{403} indique que l'accès est refusé, par exemple lorsqu'un client tente d'ouvrir une fonction réservée à l'administrateur.}
+
+\newpage
+\theme{6. Questions possibles du jury}
+\qr{Le paiement par carte est-il réel ?}{Non, le mode carte est \textbf{simulé} : aucune banque n'est appelée pour débiter le client. Les modes prévus comprennent aussi le paiement sur place et le virement. Pour une vraie carte bancaire, il faudrait intégrer un prestataire de paiement.}
+\qr{Une facture prouve-t-elle que le client a payé ?}{Non. Dans cette version, l'enregistrement de facture est créé avec la commande alors que le paiement reste en attente. Le \textbf{statut du paiement} doit donc être vérifié séparément.}
+\qr{Et si deux clients achètent le dernier produit en même temps ?}{C'est un problème de \textbf{concurrence} : deux requêtes peuvent lire le même stock disponible. Une transaction seule ne suffit pas toujours à empêcher la survente. Une amélioration serait d'ajouter un verrou sur le produit ou une mise à jour conditionnelle du stock.}
+\qr{À quoi servent vos diagrammes UML ?}{Les \textbf{cas d'utilisation} montrent les acteurs et leurs actions. Le \textbf{diagramme de classes} montre les données et leurs relations. Les \textbf{diagrammes de séquence} montrent l'ordre des échanges pendant une action, comme une commande.}
+\qr{À quoi servent Flyway et Swagger ?}{\textbf{Flyway} gère les migrations, c'est-à-dire les scripts versionnés qui font évoluer la base. \textbf{Swagger} présente la documentation de l'API et permet d'essayer ses routes. Cela facilite la compréhension et la vérification des échanges.}
+\qr{Quels tests automatiques avez-vous ?}{Le dépôt contient un test de chargement du contexte Spring avec \texttt{@SpringBootTest}. Il vérifie que les composants peuvent démarrer avec le profil de test. Il ne prouve pas que tous les parcours fonctionnent : les tests métier, de sécurité et de concurrence restent à compléter.}
+\qr{Quels cas faut-il vérifier ?}{Je vérifierais les \textbf{cas normaux et les cas d'erreur} : commande valide, panier vide, stock insuffisant et accès interdit. Je vérifierais aussi qu'un client ne peut télécharger que ses propres factures. Ces scénarios couvrent les règles principales.}
+\qr{Que voulez-vous améliorer ?}{Je propose d'intégrer un vrai paiement en ligne et des notifications. Je renforcerais aussi les \textbf{tests automatisés} et le contrôle des achats simultanés. Cela rendrait la solution plus fiable.}
+
+\newpage
+\theme{7. Réponses personnelles et conclusion}
+\textit{Adapte ces formulations à ce que tu as réellement réalisé et rencontré.}
+\qr{Quel point technique était important ?}{Un point important est la \textbf{cohérence des données} entre commande, stock, paiement et facture. Ces éléments doivent évoluer ensemble. Les services regroupent les règles métier et les transactions regroupent les écritures.}
+\qr{Qu'avez-vous appris ?}{J'ai travaillé sur le \textbf{développement full-stack} : interface, API et base de données. J'ai aussi appris à organiser le code en couches et à gérer la sécurité par rôle. Cela m'aide à comprendre le parcours complet d'une requête.}
+\qr{Pourquoi développer votre propre application ?}{L'objectif est de répondre aux besoins du projet tout en maîtrisant la conception. Une solution sur mesure permet d'adapter les rôles et les règles métier. C'est aussi un exercice complet d'analyse et de développement.}
+\qr{Peut-on l'utiliser directement en entreprise ?}{C'est une version académique qui demande une préparation avant la \textbf{mise en production}. Il faut renforcer les tests, sécuriser la configuration et prévoir des sauvegardes. Il faut aussi surveiller les erreurs et le fonctionnement du serveur.}
+\qr{Que dire si vous ne connaissez pas une réponse ?}{Je n'ai pas encore approfondi ce point. Je peux expliquer ce qui est réalisé dans ma version, mais je préfère vérifier le détail avant de donner une réponse technique précise.}
+\qr{Comment conclure ?}{Mon projet relie la vente en ligne et la gestion commerciale dans une seule application. L'architecture Next.js, Spring Boot et SQL Server sépare l'interface, les traitements et les données. La prochaine étape est de renforcer les tests et les fonctions nécessaires à la production.}
+\vfill
+\textbf{Introduction à mémoriser}\par
+Bonjour, mon projet est une application web pour SONACOS. Les clients peuvent commander des semences et des engrais. Les employés gèrent les commandes, le stock et les factures. J'ai utilisé Next.js, Spring Boot et SQL Server.
+\medskip
+\textbf{Réflexe à l'oral :} donne une réponse courte, puis un exemple du projet si le jury demande une précision.
+
+\newpage
+\theme{8. Expliquer le code au jury}
+\qr{À quoi sert CustomerCartController ?}{C'est le \textbf{point d'entrée HTTP} du panier client. Il reçoit les demandes sous \texttt{/api/customer/cart} et appelle \texttt{CartService}. Il délègue les traitements au service pour garder le contrôleur simple.}
+\qr{À quoi sert l'annotation @RestController ?}{Elle déclare une classe comme \textbf{contrôleur REST}. Les méthodes répondent aux requêtes HTTP et leurs résultats sont écrits dans la réponse, généralement en JSON. \texttt{@RequestMapping} définit le chemin commun des routes.}
+\qr{GET, POST, PUT et DELETE : quelle différence ?}{Dans le panier, \textbf{GET} consulte le contenu, \textbf{POST} ajoute un article, \textbf{PUT} modifie sa quantité et \textbf{DELETE} retire une ligne. Ces méthodes correspondent à des actions de lecture et de modification des ressources.}
+\qr{À quoi servent @RequestBody et @PathVariable ?}{\texttt{@RequestBody} lit les données JSON envoyées dans la requête et les convertit en objet Java. \texttt{@PathVariable} récupère une valeur dans l'URL. Par exemple, dans \texttt{/items/5}, l'identifiant de la ligne est 5.}
+\qr{Comment validez-vous les données reçues ?}{\texttt{@Valid} déclenche la validation des contraintes du DTO. Dans \texttt{AdminCreateUserRequest}, \texttt{@NotBlank} impose du texte non vide, \texttt{@Email} vérifie le format de l'adresse et \texttt{@Size(min = 8)} impose au moins huit caractères au mot de passe.}
+\qr{Pourquoi AdminCreateUserRequest est-il un record ?}{Un \textbf{record Java} est une façon courte de définir un objet qui transporte des données. Java génère notamment son constructeur et ses accesseurs. Ici, il sert de DTO pour recevoir les informations du nouvel utilisateur.}
+\qr{Qu'est-ce que l'injection de dépendances ?}{Spring fournit à une classe les objets dont elle a besoin. Par exemple, il fournit \texttt{CartService} au contrôleur. Avec Lombok, \texttt{@RequiredArgsConstructor} génère le constructeur pour les champs \texttt{final}.}
+\qr{Quel est le rôle d'AuthController ?}{Il expose les routes de connexion, d'inscription et de gestion du profil. Il reçoit les données, déclenche leur validation et appelle \texttt{AuthService}. Par exemple, \texttt{POST /api/auth/login} traite une demande de connexion.}
+\end{document}

@@ -1,0 +1,37 @@
+﻿@startuml
+left to right direction
+
+actor "Archiviste" as Archiviste
+
+rectangle "Application SONACOS" {
+  usecase "Tableau documentaire" as UC1
+  usecase "Documents" as UC2
+  usecase "Rechercher document" as UC3
+  usecase "Filtrer documents" as UC4
+  usecase "Detail document" as UC5
+  usecase "Telecharger document" as UC6
+  usecase "Archiver document" as UC7
+  usecase "Archives" as UC8
+  usecase "Historique archivage" as UC9
+}
+
+UC1 -[hidden]right- UC2
+UC2 -[hidden]right- UC3
+UC4 -[hidden]right- UC5
+UC5 -[hidden]right- UC6
+UC7 -[hidden]right- UC8
+UC8 -[hidden]right- UC9
+UC1 -[hidden]down- UC4
+UC4 -[hidden]down- UC7
+
+Archiviste --> UC1
+Archiviste --> UC2
+Archiviste --> UC5
+Archiviste --> UC6
+Archiviste --> UC7
+Archiviste --> UC8
+
+UC2 .> UC3 : <<include>>
+UC2 .> UC4 : <<include>>
+UC8 .> UC9 : <<extend>>
+@enduml

@@ -1,0 +1,258 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{hyperref}
+\geometry{margin=2.5cm}
+\setlist[itemize]{leftmargin=1.5em}
+\setlist[enumerate]{leftmargin=1.8em}
+
+\title{Cahier des charges PFA\\Plateforme web SONACOS}
+\author{Version V1 academique}
+\date{20 juillet 2026}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Contexte}
+SONACOS commercialise des semences certifiees et des engrais. Dans le cadre de ce projet de fin d'annee, il est propose de realiser une application web de gestion commerciale et de vente en ligne.
+
+Le projet vise une version academique serieuse, propre et demonstrable. Le systeme doit permettre la consultation du catalogue sans authentification, la gestion des commandes cote client, ainsi que l'administration operationnelle cote interne.
+
+\section{Presentation du projet}
+
+\subsection{Nom du projet}
+Plateforme web SONACOS.
+
+\subsection{Type de projet}
+Application web de gestion commerciale et e-commerce.
+
+\subsection{Vision generale}
+La plateforme doit centraliser les produits, les categories, les utilisateurs, les stocks, les commandes, les paiements et les factures dans une seule application.
+
+\section{Objectifs}
+\begin{itemize}
+  \item Permettre a un visiteur de consulter le catalogue sans creer de compte.
+  \item Permettre a un client de s'inscrire, se connecter, commander et suivre ses commandes.
+  \item Permettre a un gestionnaire de gerer les produits, le stock, les commandes, les paiements et les factures.
+  \item Permettre a un responsable de valider ou refuser certaines operations.
+  \item Permettre a un administrateur de gerer les comptes et les roles.
+  \item Produire une application coherente avec les diagrammes UML du projet.
+\end{itemize}
+
+\section{Perimetre de la V1}
+
+\subsection{Fonctions incluses}
+\begin{itemize}
+  \item Authentification JWT et gestion des roles.
+  \item Inscription et connexion des clients.
+  \item Consultation du catalogue par le visiteur.
+  \item Recherche et filtrage des produits.
+  \item Gestion des categories et des produits.
+  \item Gestion simple du stock.
+  \item Panier et passage de commande.
+  \item Choix du mode de reception: livraison ou retrait.
+  \item Paiement simule.
+  \item Generation d'une facture PDF simple.
+  \item Tableau de bord simple.
+  \item Validation simple d'operations par le responsable.
+  \item Historique simple des operations importantes.
+\end{itemize}
+
+\subsection{Fonctions hors perimetre}
+\begin{itemize}
+  \item Passerelle de paiement reelle.
+  \item Archivage documentaire complet.
+  \item Audit complet et rapports avances.
+  \item Gestion multi-centres avancee.
+  \item Logistique reelle et suivi transport.
+  \item Notifications complexes par SMS ou services tiers.
+\end{itemize}
+
+\section{Acteurs}
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{10cm}|}
+\hline
+\textbf{Acteur} & \textbf{Role dans le systeme} \\
+\hline
+Visiteur & Consulte le catalogue, recherche un produit, filtre les produits, consulte une fiche produit, cree un compte ou se connecte. \\
+\hline
+Client & Gere son panier, passe une commande, choisit le mode de reception, choisit le mode de paiement, consulte ses commandes et ses factures. \\
+\hline
+Gestionnaire & Gere les produits, categories, stocks, commandes, paiements et factures. \\
+\hline
+Responsable & Consulte le tableau de bord, consulte les operations en attente, valide ou refuse certaines operations. \\
+\hline
+Administrateur & Gere les comptes utilisateurs, active ou desactive les comptes et attribue les roles. \\
+\hline
+\end{longtable}
+
+\section{Besoins fonctionnels}
+
+\subsection{Authentification et comptes}
+\begin{itemize}
+  \item Un visiteur peut creer un compte client.
+  \item Un utilisateur authentifie peut se connecter et se deconnecter.
+  \item Le systeme doit gerer les roles \texttt{ADMIN}, \texttt{GESTIONNAIRE}, \texttt{RESPONSABLE}, \texttt{CLIENT}.
+  \item L'administrateur peut activer ou desactiver un compte.
+\end{itemize}
+
+\subsection{Catalogue et produits}
+\begin{itemize}
+  \item Le visiteur peut consulter le catalogue sans authentification.
+  \item Le visiteur peut rechercher et filtrer les produits.
+  \item Le gestionnaire peut ajouter, modifier, desactiver et consulter un produit.
+  \item Chaque produit appartient a une categorie.
+\end{itemize}
+
+\subsection{Stock}
+\begin{itemize}
+  \item Le gestionnaire peut consulter le stock.
+  \item Le gestionnaire peut enregistrer une entree ou une sortie de stock.
+  \item Le systeme doit verifier la disponibilite avant validation d'une commande.
+  \item Le systeme doit signaler un stock faible.
+\end{itemize}
+
+\subsection{Panier et commande}
+\begin{itemize}
+  \item Le client peut ajouter, modifier ou retirer des produits de son panier.
+  \item Le client doit etre connecte pour confirmer une commande.
+  \item Le client choisit un mode de reception: livraison ou retrait.
+  \item Le systeme enregistre la commande et reserve le stock si la quantite est disponible.
+\end{itemize}
+
+\subsection{Paiement et facture}
+\begin{itemize}
+  \item Le client choisit un mode de paiement.
+  \item Le paiement est simule dans la V1.
+  \item Le gestionnaire peut confirmer un paiement sur place.
+  \item Le systeme genere une facture PDF simple apres validation du paiement.
+\end{itemize}
+
+\subsection{Validation par le responsable}
+\begin{itemize}
+  \item Le responsable consulte les operations en attente.
+  \item Le responsable peut valider ou refuser une operation.
+  \item En cas de refus, un motif doit etre saisi.
+  \item Le systeme conserve une trace de la decision.
+\end{itemize}
+
+\subsection{Tableau de bord}
+\begin{itemize}
+  \item Le responsable consulte un tableau de bord simple.
+  \item Le tableau de bord affiche au minimum:
+  \begin{itemize}
+    \item nombre de produits;
+    \item nombre de commandes;
+    \item nombre de clients;
+    \item nombre d'operations en attente;
+    \item alertes de stock.
+  \end{itemize}
+\end{itemize}
+
+\section{Regles de gestion}
+\begin{enumerate}
+  \item Chaque produit possede une reference unique.
+  \item Chaque commande possede un numero unique.
+  \item Chaque facture possede un numero unique.
+  \item Une commande ne peut pas etre confirmee si le stock est insuffisant.
+  \item Un client ne peut consulter que ses propres commandes et factures.
+  \item Seuls les utilisateurs autorises peuvent modifier le stock et les prix.
+  \item Toute operation importante doit etre tracee dans l'historique.
+  \item Une operation refusee par le responsable doit conserver le motif du refus.
+\end{enumerate}
+
+\section{Architecture technique}
+
+\subsection{Technologies}
+\begin{itemize}
+  \item Front-end: Next.js
+  \item Back-end: Spring Boot
+  \item Base de donnees: SQL Server
+  \item Securite: Spring Security + JWT
+  \item Documentation API: Swagger / OpenAPI
+\end{itemize}
+
+\subsection{Choix d'architecture}
+Pour rester realiste dans le cadre d'un PFA, la solution reposera sur:
+\begin{itemize}
+  \item un seul front-end Next.js;
+  \item un seul back-end Spring Boot modulaire;
+  \item une seule base SQL Server.
+\end{itemize}
+
+Le projet n'utilise pas une architecture microservices dans la V1.
+
+\section{Exigences non fonctionnelles}
+\begin{itemize}
+  \item L'interface doit etre claire, simple et responsive.
+  \item Les mots de passe doivent etre stockes de maniere securisee.
+  \item Chaque utilisateur doit voir uniquement les fonctionnalites autorisees.
+  \item Les temps de reponse doivent rester raisonnables pour une demonstration.
+  \item Le systeme doit fonctionner sur les navigateurs modernes.
+\end{itemize}
+
+\section{Donnees principales}
+Les principales entites de la V1 sont:
+\begin{itemize}
+  \item Utilisateur
+  \item Role
+  \item Categorie
+  \item Produit
+  \item Panier
+  \item LignePanier
+  \item Commande
+  \item LigneCommande
+  \item Paiement
+  \item Facture
+  \item MouvementStock
+  \item ValidationOperation
+  \item HistoriqueOperation
+\end{itemize}
+
+\section{Livrables attendus}
+\begin{itemize}
+  \item Code source du front-end.
+  \item Code source du back-end.
+  \item Base de donnees SQL Server.
+  \item Documentation API Swagger.
+  \item Diagrammes UML / D2.
+  \item Guide d'installation.
+  \item Guide utilisateur simple.
+\end{itemize}
+
+\section{Criteres de validation}
+Le projet sera considere comme valide si:
+\begin{itemize}
+  \item le visiteur peut consulter le catalogue sans authentification;
+  \item le client peut creer un compte, se connecter et commander;
+  \item le gestionnaire peut gerer les produits, le stock et les commandes;
+  \item le responsable peut valider ou refuser une operation;
+  \item l'administrateur peut gerer les comptes et les roles;
+  \item une facture peut etre generee apres paiement valide;
+  \item le stock est controle lors de la commande.
+\end{itemize}
+
+\section{Planning fonctionnel recommande}
+\begin{enumerate}
+  \item Mise en place du projet, securite et authentification.
+  \item Gestion des utilisateurs et des roles.
+  \item Catalogue, categories et produits.
+  \item Stock et mouvements de stock.
+  \item Panier et commande client.
+  \item Paiement simule et facture.
+  \item Validation responsable et tableau de bord.
+  \item Tests, documentation et demonstration.
+\end{enumerate}
+
+\section{Conclusion}
+Cette V1 est adaptee a un projet de PFA. Elle reste suffisamment complete pour demontrer la maitrise des technologies choisies, tout en gardant un perimetre realiste et soutenable.
+
+\end{document}

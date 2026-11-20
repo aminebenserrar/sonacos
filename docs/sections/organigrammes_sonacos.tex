@@ -1,0 +1,166 @@
+\section{Organigrammes détailles de SONACOS}
+
+Les organigrammes suivants ont ete reconstruits à partir des documents organisationnels fournis. Ils presentent les principales structures concernees par le contexte du projet : pôle commercial, pôle production et développement, pôle support, departement audit et centre regional.
+
+\clearpage
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[>=Latex]
+    \node[orgMain] (pôle) at (0,0) {Pole Commercial};
+
+    \node[orgBox] (marketing) at (-4.2,-2.05) {Service Développement\\ commercial et Marketing};
+    \node[orgBox] (reseau) at (4.2,-2.05) {Service Suivi du reseau,\\ Ventes et Recouvrement};
+
+    \node[orgBox] (cereales) at (-3.8,-4.15) {Departement Semences\\ de Cereales et Fourrages};
+    \node[orgBox] (intrants) at (3.8,-4.15) {Departement Autres Intrants};
+
+    \node[orgServiceWide] (planif) at (-5.6,-6.25) {Service Planification,\\ traitement et transfert};
+    \node[orgServiceWide] (stock) at (-2.0,-6.25) {Service Suivi des\\ stocks et subvention};
+    \node[orgServiceWide] (engrais) at (2.0,-6.25) {Service Engrais et\\ Intrants chimiques};
+    \node[orgServiceWide] (autres) at (5.6,-6.25) {Services Autres\\ semences et plants};
+
+    \coordinate (topJoin) at (0,-1.15);
+    \draw[orgLine] (pôle.south) -- (topJoin);
+    \draw[orgLine] (marketing.north |- topJoin) -- (reseau.north |- topJoin);
+    \draw[orgLine] (marketing.north) -- (marketing.north |- topJoin);
+    \draw[orgLine] (reseau.north) -- (reseau.north |- topJoin);
+
+    \coordinate (deptJoin) at (0,-3.05);
+    \draw[orgLine] (pôle.south) -- (deptJoin);
+    \draw[orgLine] (cereales.north |- deptJoin) -- (intrants.north |- deptJoin);
+    \draw[orgLine] (cereales.north) -- (cereales.north |- deptJoin);
+    \draw[orgLine] (intrants.north) -- (intrants.north |- deptJoin);
+
+    \coordinate (cerealesJoin) at (-3.8,-5.2);
+    \draw[orgLine] (cereales.south) -- (cerealesJoin);
+    \draw[orgLine] (planif.north |- cerealesJoin) -- (stock.north |- cerealesJoin);
+    \draw[orgLine] (planif.north) -- (planif.north |- cerealesJoin);
+    \draw[orgLine] (stock.north) -- (stock.north |- cerealesJoin);
+
+    \coordinate (intrantsJoin) at (3.8,-5.2);
+    \draw[orgLine] (intrants.south) -- (intrantsJoin);
+    \draw[orgLine] (engrais.north |- intrantsJoin) -- (autres.north |- intrantsJoin);
+    \draw[orgLine] (engrais.north) -- (engrais.north |- intrantsJoin);
+    \draw[orgLine] (autres.north) -- (autres.north |- intrantsJoin);
+  \end{tikzpicture}
+  \caption{Organigramme du pôle commercial reconstruit}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+  \centering
+  \vspace*{0.9cm}
+  \begin{tikzpicture}[>=Latex]
+    \node[orgMain] (pôle) at (0,0) {Pole Production et Développement};
+
+    \node[orgBox] (amont) at (-5.8,-2.0) {Departement Amont Production};
+    \node[orgBox] (equip) at (-1.95,-2.0) {Departement Equipement\\ et Immobilier};
+    \node[orgBox] (prod) at (1.95,-2.0) {Departement Production\\ Industrielle};
+    \node[orgBox] (qualité) at (5.8,-2.0) {Departement Qualite};
+
+    \node[orgServiceWide] (rech) at (-5.8,-4.35) {Service Recherche et\\ Développement};
+    \node[orgServiceWide] (multi) at (-5.8,-6.65) {Service Multiplication\\ et Gestion des Partenaires};
+
+    \node[orgServiceWide] (maint) at (-1.95,-4.35) {Service Equipement, Maintenance};
+    \node[orgServiceWide] (infra) at (-1.95,-6.65) {Service Infrastructure\\ et Immobilisation};
+
+    \node[orgServiceWide] (sprod) at (1.95,-4.35) {Service de Production};
+    \node[orgServiceWide] (opt) at (1.95,-6.65) {Service Optimisation des\\ Processus et Entreposage};
+
+    \node[orgServiceWide] (sq) at (5.8,-4.35) {Service Qualite Semences\\ et Plants et Preservation};
+    \node[orgServiceWide] (hse) at (5.8,-6.65) {Service Hygiene, Securite\\ Environnement et Qualite};
+
+    \coordinate (deptJoin) at (0,-1.0);
+    \draw[orgLine] (pôle.south) -- (deptJoin);
+    \draw[orgLine] (amont.north |- deptJoin) -- (qualité.north |- deptJoin);
+    \foreach \n in {amont,equip,prod,qualité} {
+      \draw[orgLine] (\n.north) -- (\n.north |- deptJoin);
+    }
+
+    \foreach \parent/\first/\second in {amont/rech/multi,equip/maint/infra,prod/sprod/opt,qualité/sq/hse} {
+      \draw[orgLine] (\parent.south) -- (\first.north);
+      \draw[orgLine] (\first.south) -- (\second.north);
+    }
+  \end{tikzpicture}
+  \caption{Organigramme du pôle production et développement reconstruit}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[>=Latex]
+    \node[orgMain] (pôle) at (0,0) {Pole Support};
+
+    \node[orgBox,text width=2.65cm,font=\footnotesize] (jur) at (-5.8,-2.2) {Service Juridique\\ et Contentieux};
+    \node[orgBox,text width=2.65cm,font=\footnotesize] (finance) at (-2.9,-2.2) {Departement Finance\\ et Comptabilite};
+    \node[orgBox,text width=2.65cm,font=\footnotesize] (rh) at (0,-2.2) {Departement\\ Capital Humain};
+    \node[orgBox,text width=2.65cm,font=\footnotesize] (si) at (2.9,-2.2) {Departement Systeme\\ d'Information};
+    \node[orgBox,text width=2.65cm,font=\footnotesize] (achat) at (6.0,-2.2) {Departement Achat,\\ Import et Logistique};
+
+    \node[orgService,text width=2.65cm,font=\footnotesize] (cga) at (-2.9,-4.55) {Service Comptabilite\\ Generale et Analytique};
+    \node[orgService,text width=2.65cm,font=\footnotesize] (budget) at (-2.9,-6.95) {Service Comptabilite\\ Budgetaire};
+    \node[orgService,text width=2.65cm,font=\footnotesize] (tresor) at (-2.9,-9.05) {Service Financement\\ et Tresorerie};
+
+    \node[orgService,text width=2.65cm,font=\footnotesize] (admin) at (0,-4.55) {Service Administration\\ du Personnel};
+    \node[orgService,text width=2.65cm,font=\footnotesize] (compétences) at (0,-6.95) {Service Développement\\ des Emplois et Competences};
+
+    \node[orgService,text width=2.65cm,font=\footnotesize] (apps) at (2.9,-4.55) {Service Gestion\\ Applicatifs};
+    \node[orgService,text width=2.65cm,font=\footnotesize] (infra) at (2.9,-6.95) {Service Gestion des\\ Infrastructures Réseaux\\ et Securite};
+
+    \node[orgService,text width=3.15cm,font=\footnotesize] (appro) at (6.0,-4.55) {Service Achat et\\ Approvisionnement};
+    \node[orgService,text width=2.65cm,font=\footnotesize] (log) at (6.0,-6.95) {Service Logistique};
+    \node[orgService,text width=2.65cm,font=\footnotesize] (import) at (6.0,-9.05) {Service Import};
+
+    \coordinate (deptJoin) at (0,-1.15);
+    \draw[orgLine] (pôle.south) -- (deptJoin);
+    \draw[orgLine] (jur.north |- deptJoin) -- (achat.north |- deptJoin);
+    \foreach \n in {jur,finance,rh,si,achat} {
+      \draw[orgLine] (\n.north) -- (\n.north |- deptJoin);
+    }
+
+    \foreach \parent/\first/\second/\third in {finance/cga/budget/tresor,achat/appro/log/import} {
+      \draw[orgLine] (\parent.south) -- (\first.north);
+      \draw[orgLine] (\first.south) -- (\second.north);
+      \draw[orgLine] (\second.south) -- (\third.north);
+    }
+    \foreach \parent/\first/\second in {rh/admin/compétences,si/apps/infra} {
+      \draw[orgLine] (\parent.south) -- (\first.north);
+      \draw[orgLine] (\first.south) -- (\second.north);
+    }
+  \end{tikzpicture}
+  \caption{Organigramme du pôle support reconstruit}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+  \centering
+  \vspace*{0.7cm}
+  \begin{tikzpicture}[>=Latex]
+    \node[orgMain] (audit) at (0,0) {Departement Audit et\\ Contrôle de Gestion};
+    \node[orgServiceWide] (ai) at (-2.3,-2.0) {Service Audit Interne};
+    \node[orgServiceWide] (cg) at (2.3,-2.0) {Service Contrôle de Gestion};
+
+    \node[orgMain] (centre) at (0,-4.55) {Centre Regional};
+    \node[orgServiceWide] (metier) at (-3.3,-6.55) {Cellule Metier};
+    \node[orgServiceWide] (fin) at (0,-6.55) {Cellule Finance};
+    \node[orgServiceWide] (sup) at (3.3,-6.55) {Cellule Support};
+
+    \coordinate (auditJoin) at (0,-1.0);
+    \draw[orgLine] (audit.south) -- (auditJoin);
+    \draw[orgLine] (ai.north |- auditJoin) -- (cg.north |- auditJoin);
+    \draw[orgLine] (ai.north) -- (ai.north |- auditJoin);
+    \draw[orgLine] (cg.north) -- (cg.north |- auditJoin);
+
+    \coordinate (centreJoin) at (0,-5.55);
+    \draw[orgLine] (centre.south) -- (centreJoin);
+    \draw[orgLine] (metier.north |- centreJoin) -- (sup.north |- centreJoin);
+    \draw[orgLine] (metier.north) -- (metier.north |- centreJoin);
+    \draw[orgLine] (fin.north) -- (fin.north |- centreJoin);
+    \draw[orgLine] (sup.north) -- (sup.north |- centreJoin);
+  \end{tikzpicture}
+  \caption{Organisation du departement audit et d'un centre regional}
+\end{figure}

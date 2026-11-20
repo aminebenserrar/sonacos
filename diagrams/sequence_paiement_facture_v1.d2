@@ -1,0 +1,41 @@
+# SONACOS V1 - Sequence paiement et facture
+
+paiement_v1: {
+  shape: sequence_diagram
+
+  Client: Client
+  Gestionnaire: Gestionnaire
+  Frontend: "Frontend Next.js"
+  PaiementAPI: "API Paiement"
+  FactureService: "Service Facturation"
+  DB: MySQL
+
+  Client -> Frontend: "Choisir mode de paiement"
+  Frontend -> PaiementAPI: "POST /paiements"
+
+  paiement_en_ligne: {
+    label: "Alternative - paiement en ligne simule"
+    PaiementAPI -> PaiementAPI: "Simuler transaction"
+    PaiementAPI -> DB: "Enregistrer paiement valide ou refuse"
+    DB -> PaiementAPI: "Resultat enregistre"
+  }
+
+  paiement_sur_place: {
+    label: "Alternative - paiement sur place"
+    PaiementAPI -> DB: "Enregistrer paiement en attente"
+    DB -> PaiementAPI: "Paiement en attente cree"
+    Gestionnaire -> PaiementAPI: "Confirmer reception paiement"
+    PaiementAPI -> DB: "Passer paiement a VALIDE"
+    DB -> PaiementAPI: "Validation confirmee"
+  }
+
+  PaiementAPI -> FactureService: "Demander generation facture"
+  FactureService -> DB: "Charger commande + paiement"
+  DB -> FactureService: "Donnees commande"
+  FactureService -> FactureService: "Generer numero facture + PDF"
+  FactureService -> DB: "Enregistrer facture"
+  DB -> FactureService: "Facture enregistree"
+  FactureService -> PaiementAPI: "Lien facture"
+  PaiementAPI -> Frontend: "Paiement confirme + facture"
+  Frontend -> Client: "Afficher facture disponible"
+}

@@ -1,0 +1,35 @@
+# SONACOS - Sequence archivage et consultation audit
+
+archivage_audit: {
+  shape: sequence_diagram
+
+  Archiviste: Archiviste
+  Auditeur: Auditeur
+  Frontend: "Frontend Next.js"
+  ArchiveAPI: "API Archiviste"
+  AuditAPI: "API Auditeur"
+  AuditService: "Service Journal"
+  DB: "SQL Server"
+  Storage: "Stockage PDF"
+
+  Archiviste -> Frontend: "Ouvrir documents"
+  Frontend -> ArchiveAPI: "GET /api/archiviste/documents"
+  ArchiveAPI -> DB: "Lire factures et statuts archive"
+  DB -> ArchiveAPI: "Documents"
+  ArchiveAPI -> Frontend: "Liste documents"
+
+  Archiviste -> Frontend: "Archiver une facture"
+  Frontend -> ArchiveAPI: "POST /api/archiviste/documents/{id}/archive"
+  ArchiveAPI -> Storage: "Verifier PDF disponible"
+  ArchiveAPI -> DB: "Marquer facture archivee"
+  ArchiveAPI -> AuditService: "Tracer archivage"
+  AuditService -> DB: "Inserer OperationHistory"
+  ArchiveAPI -> Frontend: "Archivage confirme"
+
+  Auditeur -> Frontend: "Consulter journal"
+  Frontend -> AuditAPI: "GET /api/auditeur/journal?page&size&filters"
+  AuditAPI -> DB: "Lire OperationHistory"
+  DB -> AuditAPI: "Page journal"
+  AuditAPI -> Frontend: "Operations + total"
+  Frontend -> Auditeur: "Afficher details en lecture seule"
+}

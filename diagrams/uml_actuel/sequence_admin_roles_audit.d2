@@ -1,0 +1,30 @@
+# SONACOS - Sequence administration des utilisateurs et audit
+
+admin_roles_audit: {
+  shape: sequence_diagram
+
+  Admin: Admin
+  Frontend: "Frontend Next.js"
+  AdminAPI: "API Administration"
+  Security: "Spring Security JWT"
+  AuditService: "Service Journal"
+  DB: "SQL Server"
+
+  Admin -> Frontend: "Ouvrir utilisateurs"
+  Frontend -> Security: "Verifier session JWT"
+  Security -> Frontend: "Role ADMIN autorise"
+  Frontend -> AdminAPI: "GET /api/admin/users"
+  AdminAPI -> DB: "Lire utilisateurs et roles"
+  DB -> AdminAPI: "Liste utilisateurs"
+  AdminAPI -> Frontend: "Utilisateurs"
+
+  Admin -> Frontend: "Modifier compte / roles / statut"
+  Frontend -> AdminAPI: "PATCH /api/admin/users/{id}"
+  AdminAPI -> Security: "Verifier role ADMIN"
+  Security -> AdminAPI: "Autorise"
+  AdminAPI -> DB: "Mettre a jour utilisateur"
+  AdminAPI -> AuditService: "Tracer operation"
+  AuditService -> DB: "Inserer OperationHistory"
+  AdminAPI -> Frontend: "Compte mis a jour"
+  Frontend -> Admin: "Afficher confirmation"
+}

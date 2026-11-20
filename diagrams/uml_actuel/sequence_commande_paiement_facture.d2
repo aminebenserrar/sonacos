@@ -1,0 +1,59 @@
+# SONACOS - Sequence commande, paiement et facture
+
+commande_paiement_facture: {
+  shape: sequence_diagram
+
+  Client: Client
+  Frontend: "Frontend Next.js"
+  AuthAPI: "API Auth JWT"
+  CatalogueAPI: "API Catalogue"
+  PanierAPI: "API Panier"
+  CommandeAPI: "API Commandes"
+  StockService: "Service Stock"
+  PaiementAPI: "API Paiements"
+  FactureService: "Service Facturation"
+  DB: "SQL Server"
+
+  Client -> Frontend: "Se connecter"
+  Frontend -> AuthAPI: "POST /api/session/login"
+  AuthAPI -> DB: "Verifier compte et roles"
+  DB -> AuthAPI: "Utilisateur CLIENT actif"
+  AuthAPI -> Frontend: "JWT + profil"
+
+  Client -> Frontend: "Consulter catalogue"
+  Frontend -> CatalogueAPI: "GET /api/public/products?page&size&filters"
+  CatalogueAPI -> DB: "Lire produits actifs"
+  DB -> CatalogueAPI: "Page produits"
+  CatalogueAPI -> Frontend: "Produits + total"
+
+  Client -> Frontend: "Ajouter au panier"
+  Frontend -> PanierAPI: "POST /api/customer/cart/items"
+  PanierAPI -> DB: "Enregistrer ligne panier"
+  DB -> PanierAPI: "Panier mis a jour"
+  PanierAPI -> Frontend: "Panier"
+
+  Client -> Frontend: "Confirmer commande"
+  Frontend -> CommandeAPI: "POST /api/customer/orders"
+  CommandeAPI -> StockService: "Verifier disponibilite"
+  StockService -> DB: "Lire stock produits"
+  DB -> StockService: "Quantites"
+
+  stock_ok: {
+    label: "Stock disponible"
+    StockService -> DB: "Reserver stock"
+    CommandeAPI -> DB: "Creer commande et lignes"
+    CommandeAPI -> PaiementAPI: "Creer paiement simule ou en attente"
+    PaiementAPI -> DB: "Enregistrer paiement"
+    PaiementAPI -> FactureService: "Si paiement valide, generer facture"
+    FactureService -> DB: "Enregistrer facture PDF"
+    CommandeAPI -> Frontend: "Commande confirmee"
+    Frontend -> Client: "Afficher suivi et facture si disponible"
+  }
+
+  stock_ko: {
+    label: "Stock insuffisant"
+    StockService -> CommandeAPI: "Stock insuffisant"
+    CommandeAPI -> Frontend: "Erreur metier"
+    Frontend -> Client: "Demander modification panier"
+  }
+}

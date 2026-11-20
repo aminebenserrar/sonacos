@@ -1,0 +1,46 @@
+# SONACOS V1 - Sequence passer une commande
+
+commande_v1: {
+  shape: sequence_diagram
+
+  Client: Client
+  Frontend: "Frontend Next.js"
+  ProduitAPI: "API Produits"
+  CommandeAPI: "API Commandes"
+  StockService: "Service Stock"
+  DB: MySQL
+
+  Client -> Frontend: "Consulter catalogue"
+  Frontend -> ProduitAPI: "GET /produits"
+  ProduitAPI -> DB: "Lire produits actifs"
+  DB -> ProduitAPI: "Liste produits"
+  ProduitAPI -> Frontend: "Catalogue"
+  Frontend -> Client: "Afficher catalogue"
+
+  Client -> Frontend: "Ajouter produit au panier"
+  Frontend -> Frontend: "Mettre a jour panier"
+  Client -> Frontend: "Confirmer commande"
+  Frontend -> CommandeAPI: "POST /commandes"
+  CommandeAPI -> StockService: "Verifier disponibilite"
+  StockService -> DB: "Lire quantites en stock"
+  DB -> StockService: "Quantites"
+  StockService -> CommandeAPI: "Stock OK / KO"
+
+  stock_disponible: {
+    label: "Alternative - stock disponible"
+    CommandeAPI -> DB: "Enregistrer commande"
+    DB -> CommandeAPI: "Numero commande"
+    CommandeAPI -> StockService: "Reserver stock"
+    StockService -> DB: "Mettre a jour reservation / stock"
+    DB -> StockService: "Reservation confirmee"
+    StockService -> CommandeAPI: "Confirmation reservation"
+    CommandeAPI -> Frontend: "Commande enregistree"
+    Frontend -> Client: "Afficher confirmation"
+  }
+
+  stock_insuffisant: {
+    label: "Alternative - stock insuffisant"
+    CommandeAPI -> Frontend: "Erreur stock insuffisant"
+    Frontend -> Client: "Demander modification panier"
+  }
+}

@@ -1,0 +1,116 @@
+# SONACOS - Activite traitement commande
+
+direction: down
+
+debut: {
+  shape: circle
+  style.fill: black
+}
+
+catalogue: {
+  shape: rectangle
+  label: "Client consulte le catalogue"
+}
+
+panier: {
+  shape: rectangle
+  label: "Client ajoute des produits au panier"
+}
+
+connexion: {
+  shape: diamond
+  label: "Client connecte ?"
+}
+
+auth: {
+  shape: rectangle
+  label: "Connexion ou inscription"
+}
+
+validation_stock: {
+  shape: rectangle
+  label: "Systeme verifie le stock"
+}
+
+stock_ok: {
+  shape: diamond
+  label: "Stock disponible ?"
+}
+
+refus_stock: {
+  shape: rectangle
+  label: "Afficher erreur stock insuffisant"
+}
+
+creation_commande: {
+  shape: rectangle
+  label: "Creer commande et reserver stock"
+}
+
+paiement: {
+  shape: rectangle
+  label: "Enregistrer paiement simule ou sur place"
+}
+
+paiement_valide: {
+  shape: diamond
+  label: "Paiement valide ?"
+}
+
+attente_paiement: {
+  shape: rectangle
+  label: "Gestionnaire confirme paiement sur place"
+}
+
+facture: {
+  shape: rectangle
+  label: "Generer facture PDF"
+}
+
+traitement: {
+  shape: rectangle
+  label: "Gestionnaire traite la commande"
+}
+
+decision_responsable: {
+  shape: diamond
+  label: "Operation sensible ?"
+}
+
+validation: {
+  shape: rectangle
+  label: "Responsable valide ou refuse avec motif"
+}
+
+archive: {
+  shape: rectangle
+  label: "Archiviste archive la facture"
+}
+
+audit: {
+  shape: rectangle
+  label: "Auditeur consulte journal et details"
+}
+
+fin: {
+  shape: circle
+  style.double-border: true
+}
+
+debut -> catalogue -> panier -> connexion
+connexion -> auth: "Non"
+auth -> validation_stock
+connexion -> validation_stock: "Oui"
+validation_stock -> stock_ok
+stock_ok -> refus_stock: "Non"
+refus_stock -> fin
+stock_ok -> creation_commande: "Oui"
+creation_commande -> paiement -> paiement_valide
+paiement_valide -> attente_paiement: "Non"
+attente_paiement -> facture
+paiement_valide -> facture: "Oui"
+facture -> traitement -> decision_responsable
+decision_responsable -> validation: "Oui"
+validation -> archive
+decision_responsable -> archive: "Non"
+archive -> audit -> fin

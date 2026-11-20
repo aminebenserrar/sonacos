@@ -1,0 +1,43 @@
+﻿@startuml
+left to right direction
+
+actor "Gestionnaire" as Gestionnaire
+
+rectangle "Application SONACOS" {
+  usecase "Tableau de bord" as UC1
+  usecase "Statistiques" as UC2
+  usecase "Gerer produits" as UC3
+  usecase "Ajouter produit" as UC4
+  usecase "Modifier produit" as UC5
+  usecase "Gerer stock" as UC6
+  usecase "Mouvement stock" as UC7
+  usecase "Alertes stock" as UC8
+  usecase "Traiter commandes" as UC9
+  usecase "Statut commande" as UC10
+  usecase "Gerer paiements" as UC11
+}
+
+UC1 -[hidden]right- UC2
+UC2 -[hidden]right- UC3
+UC4 -[hidden]right- UC5
+UC5 -[hidden]right- UC6
+UC7 -[hidden]right- UC8
+UC8 -[hidden]right- UC9
+UC10 -[hidden]right- UC11
+UC1 -[hidden]down- UC4
+UC4 -[hidden]down- UC7
+UC7 -[hidden]down- UC10
+
+Gestionnaire --> UC1
+Gestionnaire --> UC3
+Gestionnaire --> UC6
+Gestionnaire --> UC9
+Gestionnaire --> UC11
+
+UC1 .> UC2 : <<include>>
+UC3 .> UC4 : <<extend>>
+UC3 .> UC5 : <<extend>>
+UC6 .> UC7 : <<include>>
+UC6 .> UC8 : <<include>>
+UC9 .> UC10 : <<include>>
+@enduml

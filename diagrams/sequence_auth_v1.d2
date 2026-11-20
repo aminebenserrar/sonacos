@@ -1,0 +1,31 @@
+# SONACOS V1 - Sequence inscription et authentification
+
+auth_v1: {
+  shape: sequence_diagram
+
+  Utilisateur: "Visiteur / Client"
+  Frontend: "Frontend Next.js"
+  AuthAPI: "API Auth Spring Boot"
+  DB: "MySQL"
+
+  Utilisateur -> Frontend: "Ouvrir inscription"
+  Frontend -> Utilisateur: "Afficher formulaire"
+  Utilisateur -> Frontend: "Saisir informations"
+  Frontend -> AuthAPI: "POST /auth/register"
+  AuthAPI -> DB: "Verifier email unique"
+  DB -> AuthAPI: "Resultat verification"
+  AuthAPI -> AuthAPI: "Chiffrer mot de passe"
+  AuthAPI -> DB: "Creer compte client"
+  DB -> AuthAPI: "Compte cree"
+  AuthAPI -> Frontend: "Inscription reussie"
+  Frontend -> Utilisateur: "Afficher confirmation"
+
+  Utilisateur -> Frontend: "Saisir email et mot de passe"
+  Frontend -> AuthAPI: "POST /auth/login"
+  AuthAPI -> DB: "Rechercher utilisateur + role"
+  DB -> AuthAPI: "Donnees utilisateur"
+  AuthAPI -> AuthAPI: "Verifier mot de passe"
+  AuthAPI -> AuthAPI: "Generer JWT"
+  AuthAPI -> Frontend: "JWT + role + profil"
+  Frontend -> Utilisateur: "Ouvrir espace selon role"
+}

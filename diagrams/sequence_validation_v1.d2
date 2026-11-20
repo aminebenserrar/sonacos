@@ -1,0 +1,49 @@
+# SONACOS V1 - Sequence validation d'une operation
+
+validation_v1: {
+  shape: sequence_diagram
+
+  Responsable: Responsable
+  Frontend: "Interface Responsable"
+  ValidationAPI: "API Validation"
+  OperationService: "Service Operations"
+  HistoriqueService: "Service Historique"
+  DB: MySQL
+
+  Responsable -> Frontend: "Consulter operations en attente"
+  Frontend -> ValidationAPI: "GET /validations/en-attente"
+  ValidationAPI -> OperationService: "Charger operations"
+  OperationService -> DB: "Lire operations en attente"
+  DB -> OperationService: "Liste operations"
+  OperationService -> ValidationAPI: "Liste operations"
+  ValidationAPI -> Frontend: "Resultats"
+  Frontend -> Responsable: "Afficher operations"
+
+  Responsable -> Frontend: "Ouvrir une operation"
+  Frontend -> ValidationAPI: "GET /validations/{id}"
+  ValidationAPI -> OperationService: "Charger details"
+  OperationService -> DB: "Lire dossier operation"
+  DB -> OperationService: "Details"
+  OperationService -> ValidationAPI: "Details"
+  ValidationAPI -> Frontend: "Dossier complet"
+
+  validation_ok: {
+    label: "Alternative - validation"
+    Responsable -> Frontend: "Valider operation"
+    Frontend -> ValidationAPI: "POST /validations/{id}/approuver"
+    ValidationAPI -> DB: "Mettre statut a VALIDEE"
+    ValidationAPI -> HistoriqueService: "Enregistrer decision"
+    HistoriqueService -> DB: "Creer historique"
+    ValidationAPI -> Frontend: "Confirmation"
+  }
+
+  refus: {
+    label: "Alternative - refus"
+    Responsable -> Frontend: "Refuser operation + motif"
+    Frontend -> ValidationAPI: "POST /validations/{id}/refuser"
+    ValidationAPI -> DB: "Mettre statut a REFUSEE"
+    ValidationAPI -> HistoriqueService: "Enregistrer refus et motif"
+    HistoriqueService -> DB: "Creer historique"
+    ValidationAPI -> Frontend: "Confirmation"
+  }
+}
